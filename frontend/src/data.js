@@ -47,7 +47,7 @@ export const categories = [
   },
   {
     id:2,
-    img:"https://cdn.shopify.com/s/files/1/0101/4832/products/Angela_Natural_Tee.png?v=1606780388",
+    img:"https://i.ibb.co/1sRscvd/lesotho-shirt.jpg",
   },
   {
     id:3,
