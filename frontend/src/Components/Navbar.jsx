@@ -50,7 +50,7 @@ const Right = styled.div`
 const MenuItem = styled.div`
   font-size: 14px;
   curser: pointer;
-  margin-Left: 25px;
+  margin-Left: 20px;
 `
 
 const Language = styled.span`
@@ -71,6 +71,7 @@ const Navbar = () => {
       </Left>
       <Center><Logo>ShopE</Logo></Center>
       <Right>
+        <MenuItem>LOCATIONS</MenuItem>
         <MenuItem>REGISTER</MenuItem>
         <MenuItem>SIGN IN</MenuItem>
         <MenuItem>
