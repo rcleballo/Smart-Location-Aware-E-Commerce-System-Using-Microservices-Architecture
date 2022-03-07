@@ -9,10 +9,10 @@ const Container = styled.div`
     justify-content: space-between;
 `;
 
-const Products = () => {
+const Products = ({ limit }) => {
   return (
     <Container>
-      {popularProducts.map((item) => (
+      {popularProducts.slice(0, limit).map((item) => (
         <Product item={item} key={item.id} />
       ))}
     </Container>

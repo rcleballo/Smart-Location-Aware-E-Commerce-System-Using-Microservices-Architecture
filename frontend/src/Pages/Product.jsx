@@ -4,6 +4,7 @@ import Footer from '../Components/Footer';
 import styled from 'styled-components';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
 import { mobile } from '../responsive';
+import Products from '../Components/Products';
 
 const Container = styled.div`
 
@@ -21,7 +22,7 @@ const ImgContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 90vh;
+  height: 120vh;
   object-fit: cover;
   ${mobile({ height: "60vh" })}
 `;
@@ -120,6 +121,15 @@ const Button = styled.button`
   }
 `;
 
+const Related = styled.div`
+
+`;
+
+const RelatedTitle = styled.h1`
+  font-weight: 200;
+  font-size: 20px;
+`;
+
 const Product = () => {
   return (
     <Container>
@@ -168,6 +178,10 @@ const Product = () => {
           </AddContainer>
         </InfoContainer>
       </Wrapper>
+      <Related>
+        <RelatedTitle>YOU MAY ALSO LIKE</RelatedTitle>
+        <Products limit = {3}/>
+      </Related>
       <Footer/>
     </Container>
   );
