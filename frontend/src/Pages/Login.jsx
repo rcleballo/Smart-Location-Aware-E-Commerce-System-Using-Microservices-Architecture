@@ -62,6 +62,8 @@ const Link = styled.a`
 `;
 
 const Error = styled.span`
+  margin-top: 20px;
+  font-size: 1.2em;
   color: #ef233c;
 `;
 
