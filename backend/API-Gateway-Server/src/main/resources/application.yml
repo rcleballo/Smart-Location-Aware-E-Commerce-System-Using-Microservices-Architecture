@@ -12,10 +12,22 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: authentication
-          uri: lb://AUTHENTICATION-SERVICE
+        - id: users
+          uri: lb://USER-SERVICE
           predicates:
-            - Path=/api/auth/**
+            - Path=/api/auth/**, /api/users/**
+        - id: products
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/products/**
+        - id: cart
+          uri: lb://CART-SERVICE
+          predicates:
+            - Path=/api/cart/**
+        - id: order
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/order/**
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -24,3 +36,5 @@ spring:
             allowedMethods:
               - GET
               - POST
+              - PUT
+              - DELETE
