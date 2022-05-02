@@ -22,7 +22,10 @@ const App = () => {
           ) : (
             <Login/>) } 
         />
-        <Route path='/register' element={ <Register/> } />
+        <Route path='/register' element={ user ? (
+            <Navigate replace to='/' />
+          ) : (
+            <Register/> )} />
       </Routes>
     </BrowserRouter>
   );

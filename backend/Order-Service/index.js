@@ -20,7 +20,7 @@ app.use(express.json());
 app.use("/api/order", orderRoute);
 
 app.listen(process.env.PORT || 5002, () => {
-  console.log("Product-Service is running on port 5002");
+  console.log("Order-Service is running on port 5002");
 });
 
 eurekaHelper.registerWithEureka('order-Service', 5002);

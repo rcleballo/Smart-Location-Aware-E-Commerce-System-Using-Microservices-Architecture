@@ -1,8 +1,12 @@
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { userRequest } from "../RequestMethods";
+import { useNavigate } from "react-router";
 import Navbar from '../Components/Navbar';
 import Announcement from '../Components/Announcement';
 import Footer from '../Components/Footer';
 import styled from 'styled-components';
-import { AddCircle, RemoveCircle } from '@material-ui/icons';
+import { Add, AddCircle, Remove, RemoveCircle } from '@material-ui/icons';
 import { mobile } from '../responsive';
 
 const Container = styled.div``;
@@ -154,6 +158,9 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+  const history = useNavigate();
+
   return (
     <Container>
       <Navbar/>
@@ -170,26 +177,35 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src='https://i.ibb.co/HHTFhnV/sister.png'/>
-                <Details>
-                  <ProductName><b>Product:</b> WINTER FASHIONABLE BLANKET</ProductName>
-                  <ProductId><b>ID:</b> 12345678</ProductId>
-                  <ProductColor color='grey'/>
-                  <ProductSize><b>Size:</b> 32</ProductSize>
-                </Details>
-              </ProductDetail>
-              <ProductDetail></ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <AddCircle/>
-                  <ProductAmount>3</ProductAmount>
-                  <RemoveCircle/>
-                </ProductAmountContainer>
-                <ProductPrice>M 900</ProductPrice>
-              </PriceDetail>
-            </Product>
+             {cart.products.map((product) => (
+              <Product>
+                <ProductDetail>
+                  <Image src={product.img} />
+                  <Details>
+                    <ProductName>
+                      <b>Product:</b> {product.title}
+                    </ProductName>
+                    <ProductId>
+                      <b>ID:</b> {product._id}
+                    </ProductId>
+                    <ProductColor color={product.color} />
+                    <ProductSize>
+                      <b>Size:</b> {product.size}
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <Add />
+                    <ProductAmount>{product.quantity}</ProductAmount>
+                    <Remove />
+                  </ProductAmountContainer>
+                  <ProductPrice>
+                    $ {product.price * product.quantity}
+                  </ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
             <Hr/>
             <Product>
               <ProductDetail>
@@ -213,26 +229,22 @@ const Cart = () => {
             </Product>
           </Info>
           <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+          <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>M 900</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>M 100</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>M 100</SummaryItemPrice>
+              <SummaryItemPrice>M 50</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>M -50</SummaryItemPrice>
+              <SummaryItemPrice>M -10</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>M 1050</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <Button>CHECKOUT NOW</Button>
           </Summary>

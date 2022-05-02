@@ -2,9 +2,14 @@ import Navbar from '../Components/Navbar';
 import Announcement from '../Components/Announcement';
 import Footer from '../Components/Footer';
 import styled from 'styled-components';
-import { AddCircle, RemoveCircle } from '@material-ui/icons';
+import { Add, Remove } from '@material-ui/icons';
 import { mobile } from '../responsive';
 import Products from '../Components/Products';
+import { publicRequest } from "../RequestMethods";
+import { addProduct } from "../Redux/CartRedux";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
 
@@ -131,56 +136,81 @@ const RelatedTitle = styled.h1`
 `;
 
 const Product = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/find/" + id);
+        setProduct(res.data);
+      } catch {}
+    };
+    getProduct();
+  }, [id]);
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleClick = () => {
+    dispatch(
+      addProduct({ ...product, quantity, color, size })
+    );
+  };
+
   return (
     <Container>
       <Navbar/>
       <Announcement/>
       <Wrapper>
         <ImgContainer>
-          <Image src="https://i.ibb.co/HHTFhnV/sister.png" />
+          <Image src={product.img} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Fashion Blanket</Title>
+          <Title>{product.title}</Title>
           <Description>
-            The finest comfort of any cold season or place is the warm snugness of a blanket.
-            How cruel then that we’re forced to leave it in the sanctuary of our bedrooms to brave the low temperatures. 
-            Because, wouldn’t it raise a few eyebrows if we strolled into a meeting of our peers, swaddled in a blanket?
-            In the Kingdom of Lesotho, Basotho blankets are a common part of daily wear. Not only as a barrier to the cold, 
-            but also as a status symbol and cultural identification. Functional and aesthetically pleasing, 
-            these blankets are built to last a lifetime
+            {product.desc}
           </Description>
-          <Price>M 300</Price>
+          <Price>M {product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black"/>
-              <FilterColor color="Yellow"/>
-              <FilterColor color="Blue"/>
+              {product.color?.map((c) => (
+                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
+              ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
+                {product.size?.map((s) => (
+                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                ))}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <RemoveCircle/>
-              <Amount>1</Amount>
-              <AddCircle/>
+              <Remove onClick={() => handleQuantity("dec")} />
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleClick}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
       <Related>
         <RelatedTitle>YOU MAY ALSO LIKE</RelatedTitle>
-        <Products limit = {3}/>
+        <Products limit = {5}/>
       </Related>
       <Footer/>
     </Container>
