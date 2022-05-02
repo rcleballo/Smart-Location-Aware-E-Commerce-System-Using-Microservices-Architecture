@@ -1,8 +1,11 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import Chart from '../Components/Chart';
 import { productData } from '../data';
 import { Publish } from '@material-ui/icons';
+import { useSelector } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
+import { userRequest } from "../requestMethods";
+import { Link, useLocation } from "react-router-dom";
 
 const Container = styled.div`
   flex: 4;
@@ -158,6 +161,52 @@ const ProductButton = styled.button`
 `;
 
 const Product = () => {
+  const location = useLocation();
+  const productId = location.pathname.split("/")[2];
+  const [pStats, setPStats] = useState([]);
+
+  const product = useSelector((state) =>
+    state.product.products.find((product) => product._id === productId)
+  );
+
+  const MONTHS = useMemo(
+    () => [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Agu",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    []
+  );
+
+  useEffect(() => {
+    const getStats = async () => {
+      try {
+        const res = await userRequest.get("orders/income?pid=" + productId);
+        const list = res.data.sort((a,b)=>{
+            return a._id - b._id
+        })
+        list.map((item) =>
+          setPStats((prev) => [
+            ...prev,
+            { name: MONTHS[item._id - 1], Sales: item.total },
+          ])
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getStats();
+  }, [productId, MONTHS]);
+
   return (
     <Container>
       <ProductTitleContainer>
@@ -168,17 +217,17 @@ const Product = () => {
       </ProductTitleContainer>
       <ProductTop>
         <ProductTopLeft>
-          <Chart data={productData} dataKey='Sales' title='Sales Performance'/>
+          <Chart data={pStats} dataKey='Sales' title='Sales Performance'/>
         </ProductTopLeft>
         <ProductTopRight>
           <ProductInfoTop>
-            <Image src='https://i.ibb.co/HNYjMxp/81-Xdqh0b-WGL-AC-SY355.jpg' alt='' />
-            <ProductName>MSI GF65 thin 9SD</ProductName>
+            <Image src={product.img} alt='' />
+            <ProductName>{product.title}</ProductName>
           </ProductInfoTop>
           <ProductInfoBottom>
             <ProductInfoItem>
               <ProductInfoKey>ID: </ProductInfoKey>
-              <ProductInfoValue>123</ProductInfoValue>
+              <ProductInfoValue>{product._id}</ProductInfoValue>
             </ProductInfoItem>
             <ProductInfoItem>
               <ProductInfoKey>Sales: </ProductInfoKey>
@@ -190,7 +239,7 @@ const Product = () => {
             </ProductInfoItem>
             <ProductInfoItem>
               <ProductInfoKey>In Stock: </ProductInfoKey>
-              <ProductInfoValue>No</ProductInfoValue>
+              <ProductInfoValue>{product.inStock}</ProductInfoValue>
             </ProductInfoItem>
           </ProductInfoBottom>
         </ProductTopRight>
@@ -199,11 +248,15 @@ const Product = () => {
         <ProductForm>
           <ProductFormLeft>
             <ProductFormLabel>Product Name</ProductFormLabel>
-            <ProductFormInput type="text" placeholder="MSI GF65 thin 9SD"/>
+            <ProductFormInput type="text" placeholder={product.title}/>
+            <ProductFormLabel>Description</ProductFormLabel>
+            <ProductFormInput type="text" placeholder={product.desc}/>
+            <ProductFormLabel>Price</ProductFormLabel>
+            <ProductFormInput type="text" placeholder={product.price}/>
             <ProductFormLabel>In Stock</ProductFormLabel>
             <ProductFormSelect name="inStock" id="inStock">
-              <ProductFormOption value="yes">Yes</ProductFormOption>
-              <ProductFormOption value="no">No</ProductFormOption>
+              <ProductFormOption value="true">Yes</ProductFormOption>
+              <ProductFormOption value="false">No</ProductFormOption>
             </ProductFormSelect>
             <ProductFormLabel>Active</ProductFormLabel>
             <ProductFormSelect name="active" id="active">
@@ -213,7 +266,7 @@ const Product = () => {
           </ProductFormLeft>
           <ProductFormRight>
             <ProductUpload>
-              <ProductUploadImage src="https://i.ibb.co/HNYjMxp/81-Xdqh0b-WGL-AC-SY355.jpg" alt="" />
+              <ProductUploadImage src={product.img} alt="" />
               <ProductUploadLabel for="file">
                 <Publish />
               </ProductUploadLabel>

@@ -4,6 +4,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Topbar from "./Components/Topbar";
 import Sidebar from "./Components/Sidebar";
 import Home from "./Pages/Home";
@@ -19,34 +20,36 @@ import NewStaff from './Pages/NewStaff';
 import Transactions from './Pages/Transactions';
 import TransactionDetail from './Pages/TransactionDetail';
 import Analytics from './Pages/Analytics';
-
-const Container = styled.div`
-  display: flex;
-  margin-top: 10px;
-`;
+import Login from './Pages/Login';
 
 function App() {
+  const admin = useSelector((state) => state.user.currentUser);
   return (
     <Router>
-      <Topbar />
-      <Container>
-        <Sidebar />
         <Routes>
-          <Route path='/' element={<Home/>} />
-          <Route path='/users' element={<UserList/>} />
-          <Route path='/user/:userId' element={<User/>} />
-          <Route path='/newUser' element={<NewUser />} />
-          <Route path='/products' element={<ProductList/>} />
-          <Route path='/product/:productId' element={<Product />} />
-          <Route path='/newProduct' element={<NewProduct />} />
-          <Route path='/staff' element={<StaffList/>} />
-          <Route path='/staff/:userId' element={<Staff/>} />
-          <Route path='/newStaff' element={<NewStaff />} />
-          <Route path='/transactions' element={<Transactions />} />
-          <Route path='/transactions/:transId' element={<TransactionDetail />} />
-          <Route path='/analytics' element={<Analytics />} />
+          <Route path='/login' element={ <Login/> } />
+          {admin && (
+            <>
+              <Topbar />
+              <div className='container'>
+                <Sidebar />
+                <Route path='/' element={<Home/>} />
+                <Route path='/users' element={<UserList/>} />
+                <Route path='/user/:userId' element={<User/>} />
+                <Route path='/newUser' element={<NewUser />} />
+                <Route path='/products' element={<ProductList/>} />
+                <Route path='/product/:productId' element={<Product />} />
+                <Route path='/newProduct' element={<NewProduct />} />
+                <Route path='/staff' element={<StaffList/>} />
+                <Route path='/staff/:userId' element={<Staff/>} />
+                <Route path='/newStaff' element={<NewStaff />} />
+                <Route path='/transactions' element={<Transactions />} />
+                <Route path='/transactions/:transId' element={<TransactionDetail />} />
+                <Route path='/analytics' element={<Analytics />} />
+              </div>
+            </>
+          )}
         </Routes>
-      </Container>
     </Router>
   );
 }

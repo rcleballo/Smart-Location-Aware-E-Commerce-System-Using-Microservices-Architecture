@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { Delete } from '@material-ui/icons';
 import { productRows } from '../data';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProduct, getProducts } from "../redux/apiCalls";
 
 const Container = styled.div`
   flex: 4;
@@ -33,11 +35,16 @@ const EditButton = styled.button`
 `;
 
 const ProductList = () => {
-  const [data, setData] = useState(productRows);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.products);
+
+  useEffect(() => {
+    getProducts(dispatch);
+  }, [dispatch]);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  }
+    deleteProduct(id, dispatch);
+  };
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -72,17 +79,18 @@ const ProductList = () => {
             </Link>
             <Delete style={{ color: '#d90429', cursor: 'pointer' }} onClick={() => handleDelete(params.row.id)}/>
           </>
-        )
-      }
+        );
+      },
     },
   ];
 
   return (
     <Container>
       <DataGrid
-        rows={data}
+        rows={products}
         disableSelectionOnClick
         columns={columns}
+        getRowId={(row) => row._id}
         pageSize={10}
         rowsPerPageOptions={[5]}
         checkboxSelection

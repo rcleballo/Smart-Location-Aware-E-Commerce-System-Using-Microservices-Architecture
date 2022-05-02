@@ -4,6 +4,8 @@ import FeaturedInfo from '../Components/FeaturedInfo';
 import WidgetLarge from '../Components/WidgetLarge';
 import WidgetSmall from '../Components/WidgetSmall';
 import { userData } from '../data';
+import { useEffect, useMemo, useState } from "react";
+import { userRequest } from "../requestMethods";
 
 const Container = styled.div`
   flex: 4;
@@ -15,10 +17,44 @@ const Widgets = styled.div`
 `;
 
 const Home = () => {
+  const [userStats, setUserStats] = useState([]);
+  const MONTHS = useMemo(
+    () => [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Agu",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    []
+  );
+
+  useEffect(() => {
+    const getStats = async () => {
+      try {
+        const res = await userRequest.get("/users/stats");
+        res.data.map((item) =>
+          setUserStats((prev) => [
+            ...prev,
+            { name: MONTHS[item._id - 1], "Active User": item.total },
+          ])
+        );
+      } catch {}
+    };
+    getStats();
+  }, [MONTHS]);
+
   return (
     <Container>
       <FeaturedInfo />
-      <Chart data={userData} title="User Analytics" grid dataKey="Active Users"/>
+      <Chart data={userStats} title="User Analytics" grid dataKey="Active Users"/>
       <Widgets>
         <WidgetSmall />
         <WidgetLarge />
