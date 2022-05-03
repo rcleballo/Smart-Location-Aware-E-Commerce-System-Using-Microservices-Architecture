@@ -1,5 +1,12 @@
 const jwt = require("jsonwebtoken");
 
+let admin = false;
+try {
+  admin = req.user.isAdmin
+} catch(err) {
+  admin = false;
+}
+
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.token;
   if (authHeader) {

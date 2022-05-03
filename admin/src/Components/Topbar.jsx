@@ -72,14 +72,6 @@ const Topbar = () => {
         </TopLeft>
         <TopRight>
           <TopIconContainer>
-            <Notifications />
-            <TopIconBadge>2</TopIconBadge>
-          </TopIconContainer>
-          <TopIconContainer>
-            <Language />
-            <TopIconBadge>2</TopIconBadge>
-          </TopIconContainer>
-          <TopIconContainer>
             <Settings />
           </TopIconContainer>
           <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png"/>

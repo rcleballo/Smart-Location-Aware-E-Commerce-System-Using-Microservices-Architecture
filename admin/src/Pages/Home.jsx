@@ -7,6 +7,7 @@ import { userData } from '../data';
 import { useEffect, useMemo, useState } from "react";
 import { userRequest } from "../requestMethods";
 
+
 const Container = styled.div`
   flex: 4;
 `;
@@ -38,7 +39,7 @@ const Home = () => {
 
   useEffect(() => {
     const getStats = async () => {
-      try {
+      try { 
         const res = await userRequest.get("/users/stats");
         res.data.map((item) =>
           setUserStats((prev) => [
@@ -54,7 +55,12 @@ const Home = () => {
   return (
     <Container>
       <FeaturedInfo />
-      <Chart data={userStats} title="User Analytics" grid dataKey="Active Users"/>
+      <Chart 
+        data={userStats} 
+        title="User Analytics" 
+        grid 
+        dataKey="Active User"
+      />
       <Widgets>
         <WidgetSmall />
         <WidgetLarge />

@@ -206,7 +206,7 @@ const Product = () => {
     };
     getStats();
   }, [productId, MONTHS]);
-
+  console.log(pStats);
   return (
     <Container>
       <ProductTitleContainer>
@@ -217,7 +217,7 @@ const Product = () => {
       </ProductTitleContainer>
       <ProductTop>
         <ProductTopLeft>
-          <Chart data={pStats} dataKey='Sales' title='Sales Performance'/>
+          <Chart data={pStats} dataKey="Sales" title="Sales Performance"/>
         </ProductTopLeft>
         <ProductTopRight>
           <ProductInfoTop>
@@ -254,20 +254,15 @@ const Product = () => {
             <ProductFormLabel>Price</ProductFormLabel>
             <ProductFormInput type="text" placeholder={product.price}/>
             <ProductFormLabel>In Stock</ProductFormLabel>
-            <ProductFormSelect name="inStock" id="inStock">
+            <ProductFormSelect name="inStock" id="idStock">
               <ProductFormOption value="true">Yes</ProductFormOption>
               <ProductFormOption value="false">No</ProductFormOption>
-            </ProductFormSelect>
-            <ProductFormLabel>Active</ProductFormLabel>
-            <ProductFormSelect name="active" id="active">
-              <ProductFormOption value="yes">Yes</ProductFormOption>
-              <ProductFormOption value="no">No</ProductFormOption>
             </ProductFormSelect>
           </ProductFormLeft>
           <ProductFormRight>
             <ProductUpload>
               <ProductUploadImage src={product.img} alt="" />
-              <ProductUploadLabel for="file">
+              <ProductUploadLabel htmlFor="file">
                 <Publish />
               </ProductUploadLabel>
               <ProductUploadInput type="file" id="file" />

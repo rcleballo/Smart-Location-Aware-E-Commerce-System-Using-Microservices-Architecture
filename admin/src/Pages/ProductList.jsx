@@ -47,21 +47,20 @@ const ProductList = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'product', headerName: 'Product', width: 210, renderCell: (params) => {
-      return (
-        <ProductListContainer>
-          <Image src={params.row.image} alt="" />
-          {params.row.name}
-        </ProductListContainer>
+    { field: '_id', headerName: 'ID', width: 220 },
+    { 
+      field: 'product', 
+      headerName: 'Product', 
+      width: 210, 
+      renderCell: (params) => {
+        return (
+          <ProductListContainer>
+            <Image src={params.row.img} alt="" />
+            {params.row.title}
+          </ProductListContainer>
       )
     } },
-    { field: 'stock', headerName: 'Stock', width: 180 },
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 100,
-    },
+    { field: "inStock", headerName: "Stock", width: 200 },
     {
       field: 'price',
       headerName: 'Price',
@@ -74,10 +73,10 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={'/product/'+params.row.id}>
+            <Link to={'/product/'+params.row._id}>
               <EditButton>Edit</EditButton>
             </Link>
-            <Delete style={{ color: '#d90429', cursor: 'pointer' }} onClick={() => handleDelete(params.row.id)}/>
+            <Delete style={{ color: '#d90429', cursor: 'pointer' }} onClick={() => handleDelete(params.row._id)}/>
           </>
         );
       },
@@ -91,8 +90,7 @@ const ProductList = () => {
         disableSelectionOnClick
         columns={columns}
         getRowId={(row) => row._id}
-        pageSize={10}
-        rowsPerPageOptions={[5]}
+        pageSize={8}
         checkboxSelection
       />
     </Container>

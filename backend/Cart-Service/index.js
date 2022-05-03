@@ -20,7 +20,7 @@ app.use(express.json());
 app.use("/api/cart", cartRoute);
 
 app.listen(process.env.PORT || 5001, () => {
-  console.log("Product-Service is running on port 5001");
+  console.log("Order-Service is running on port 5001");
 });
 
 eurekaHelper.registerWithEureka('Cart-Service', 5001);

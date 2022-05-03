@@ -2,7 +2,8 @@
 Final Year School Project By Phakisi K.S and Leballo R.C
 
 For Authentication HS512 was used to sign JsonWebTokens
-Bcrypt is used to encrypt passwords then store them in the database
+cryptojs is used to encrypt passwords then store them in the database
+it used AES. Also used a secret key as salt
 
 For API gateway, Netflix Zuul was used but provided the following error:
 ```

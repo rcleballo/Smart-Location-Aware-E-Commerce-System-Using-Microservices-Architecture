@@ -30,23 +30,37 @@ margin-top: 10px;
 `;
 
 function App() {
-  const admin = useSelector((state) => state.user.currentUser);
+  let admin = useSelector((state) => state.user.currentUser);
   
   function PrivateRoute({ admin, children }) {
     return admin ? children : <Navigate to="/login" />;
   }
 
+  function PublicRoute({ admin, children }) {
+    return admin ? <Navigate to="/" /> : children;
+  }
+
+  try {
+    admin = admin.isAdmin
+  } catch(err) {
+    admin = false;
+  }
+
   return (
     <Router>
         <Routes>
-        <Route path='/login' index element={ <Login/> } />
+          <Route path='/login' index element={ 
+            <PublicRoute admin={admin}>
+              <Login/> 
+            </PublicRoute>
+          } />
           <Route path='/' element={
             <PrivateRoute admin={admin}>
-              <Topbar />
-              <Container>
-                <Sidebar />
-                <Home/>
-              </Container>
+                <Topbar />
+                <Container>
+                  <Sidebar />
+                  <Home/>
+                </Container>
             </PrivateRoute>
           }/>
           <Route path='/users' element={

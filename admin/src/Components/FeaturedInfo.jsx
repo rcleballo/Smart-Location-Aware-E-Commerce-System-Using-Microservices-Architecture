@@ -1,5 +1,7 @@
 import { ArrowDownward, ArrowUpward } from '@material-ui/icons';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { userRequest } from '../requestMethods';
 
 const Feature = styled.div`
   width: 100%;
@@ -44,15 +46,34 @@ const FeaturedSubTitle = styled.span`
 `;
 
 const FeaturedInfo = () => {
+  const [income, setIncome] = useState([]);
+  const [perc, setPerc] = useState(0);
+
+  useEffect(() => {
+    const getIncome = async () => {
+      try {
+        const res = await userRequest.get("orders/income");
+        setIncome(res.data);
+        // multiple with 200 for demo purposes, real value should be 100
+        setPerc((res.data[0].total * 200) / res.data[0].total - 100);
+      } catch {}
+    };
+    getIncome();
+  }, []);
+
   return (
     <Feature>
       <FeaturedItem>
         <FeaturedTitle>Revenue</FeaturedTitle>
         <FeaturedMoneyContainer>
-          <FeaturedMoney>M10 000</FeaturedMoney>
+          <FeaturedMoney>M{income[0]?.total /*real value should be 1 not 0 */}</FeaturedMoney>
           <FeaturedMoneyRate>
-            -100
-            <ArrowDownward style={{ fontSize: "14px", marginLeft: "5px", color: "red" }}/>
+            %{Math.floor(perc)}{" "}
+            {perc < 0 ? (
+              <ArrowDownward style={{ fontSize: "14px", marginLeft: "5px", color: "red" }}/>
+            ) : (
+              <ArrowUpward style={{ fontSize: "14px", marginLeft: "5px", color: "green" }}/>
+            )}
           </FeaturedMoneyRate>
         </FeaturedMoneyContainer>
         <FeaturedSubTitle>Compared to Last Month</FeaturedSubTitle>
@@ -60,10 +81,14 @@ const FeaturedInfo = () => {
       <FeaturedItem>
         <FeaturedTitle>Sales</FeaturedTitle>
         <FeaturedMoneyContainer>
-          <FeaturedMoney>M50 000</FeaturedMoney>
+          <FeaturedMoney>M{income[0]?.total}</FeaturedMoney>
           <FeaturedMoneyRate>
-            -200
-            <ArrowDownward style={{ fontSize: "14px", marginLeft: "5px", color: "red" }}/>
+            %{Math.floor(perc)}{" "}
+            {perc < 0 ? (
+              <ArrowDownward style={{ fontSize: "14px", marginLeft: "5px", color: "red" }}/>
+            ) : (
+              <ArrowUpward style={{ fontSize: "14px", marginLeft: "5px", color: "green" }}/>
+            )}
           </FeaturedMoneyRate>
         </FeaturedMoneyContainer>
         <FeaturedSubTitle>Compared to Last Month</FeaturedSubTitle>
@@ -71,10 +96,14 @@ const FeaturedInfo = () => {
       <FeaturedItem>
         <FeaturedTitle>Cost</FeaturedTitle>
         <FeaturedMoneyContainer>
-          <FeaturedMoney>M5 000</FeaturedMoney>
+          <FeaturedMoney>M{income[0]?.total}</FeaturedMoney>
           <FeaturedMoneyRate>
-            +1000
-            <ArrowUpward style={{ fontSize: "14px", marginLeft: "5px", color: "green" }}/>
+            %{Math.floor(perc)}{" "}
+            {perc < 0 ? (
+              <ArrowDownward style={{ fontSize: "14px", marginLeft: "5px", color: "red" }}/>
+            ) : (
+              <ArrowUpward style={{ fontSize: "14px", marginLeft: "5px", color: "green" }}/>
+            )}
           </FeaturedMoneyRate>
         </FeaturedMoneyContainer>
         <FeaturedSubTitle>Compared to Last Month</FeaturedSubTitle>

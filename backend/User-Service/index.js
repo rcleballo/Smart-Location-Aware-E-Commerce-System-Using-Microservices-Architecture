@@ -22,7 +22,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 
 app.listen(process.env.PORT || 5003, () => {
-  console.log("Product-Service is running on port 5003");
+  console.log("User-Service is running on port 5003");
 });
 
 eurekaHelper.registerWithEureka('user-Service', 5003);

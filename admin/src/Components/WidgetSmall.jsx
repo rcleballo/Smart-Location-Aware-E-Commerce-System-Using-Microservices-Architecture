@@ -1,5 +1,7 @@
 import { Visibility } from '@material-ui/icons';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { userRequest } from '../requestMethods';
 
 const Widget = styled.div`
   flex: 1;
@@ -59,87 +61,38 @@ const WidgetButton = styled.button`
 `;
 
 const WidgetSmall = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const res = await userRequest.get("users/?new=true");
+        setUsers(res.data);
+      } catch {}
+    };
+    getUsers();
+  }, []);
+
   return (
     <Widget>
       <WidgetTitle>New Users</WidgetTitle>
       <WidgetList>
-        <WidgetListItem>
-          <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png"/>
+      {users.map((user) => (
+        <WidgetListItem key={user._id}>
+          <Image src={
+            user.img || 
+            "https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png"}
+            alt=""
+          />
           <User>
-            <UserName>Average Joe</UserName>
-            <UserEmail>averagejoe@gmail.com</UserEmail>
+            <UserName>{user.username}</UserName>
           </User>
           <WidgetButton>
             <Visibility style={{ fontSize: "16px", marginRight: "5px"}}/>
             Display
           </WidgetButton>
         </WidgetListItem>
-        <WidgetListItem>
-          <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png"/>
-          <User>
-            <UserName>Average Joe</UserName>
-            <UserEmail>averagejoe@gmail.com</UserEmail>
-          </User>
-          <WidgetButton>
-            <Visibility style={{ fontSize: "16px", marginRight: "5px"}}/>
-            Display
-          </WidgetButton>
-        </WidgetListItem>
-        <WidgetListItem>
-          <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png"/>
-          <User>
-            <UserName>John Smith</UserName>
-            <UserEmail>johnsmith@gmail.com</UserEmail>
-          </User>
-          <WidgetButton>
-            <Visibility style={{ fontSize: "16px", marginRight: "5px"}}/>
-            Display
-          </WidgetButton>
-        </WidgetListItem>
-        <WidgetListItem>
-          <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png"/>
-          <User>
-            <UserName>John Doe</UserName>
-            <UserEmail>johndoe@gmail.com</UserEmail>
-          </User>
-          <WidgetButton>
-            <Visibility style={{ fontSize: "16px", marginRight: "5px"}}/>
-            Display
-          </WidgetButton>
-        </WidgetListItem>
-        <WidgetListItem>
-          <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png"/>
-          <User>
-            <UserName>Jane Doe</UserName>
-            <UserEmail>janedoe@gmail.com</UserEmail>
-          </User>
-          <WidgetButton>
-            <Visibility style={{ fontSize: "16px", marginRight: "5px"}}/>
-            Display
-          </WidgetButton>
-        </WidgetListItem>
-        <WidgetListItem>
-          <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png"/>
-          <User>
-            <UserName>Jane Smith</UserName>
-            <UserEmail>janesmith@gmail.com</UserEmail>
-          </User>
-          <WidgetButton>
-            <Visibility style={{ fontSize: "16px", marginRight: "5px"}}/>
-            Display
-          </WidgetButton>
-        </WidgetListItem>
-        <WidgetListItem>
-          <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png"/>
-          <User>
-            <UserName>Average Jane</UserName>
-            <UserEmail>averagejane@gmail.com</UserEmail>
-          </User>
-          <WidgetButton>
-            <Visibility style={{ fontSize: "16px", marginRight: "5px"}}/>
-            Display
-          </WidgetButton>
-        </WidgetListItem>
+      ))}
       </WidgetList>
     </Widget>
   )

@@ -12,16 +12,16 @@ const ChartTitle = styled.h3`
   margin-bottom: 20px;
 `;
 
-const Chart = (props) => {
+const Chart = ({ title, data, dataKey, grid }) => {
   return (
     <ChartContainer>
-      <ChartTitle>{props.title}</ChartTitle>
+      <ChartTitle>{title}</ChartTitle>
       <ResponsiveContainer width="100%" aspect={4/1}>
-        <LineChart data={props.data}>
+        <LineChart data={data}>
           <XAxis dataKey="name" stroke="#48cae4" />
-          <Line type="monotone" dataKey={props.dataKey} stroke="#00b4d8" />
+          <Line type="monotone" dataKey={dataKey} stroke="#00b4d8" />
           <Tooltip />
-          {props.grid && <CartesianGrid stroke="#dee2ff" strokeDasharray="5 5"/>}
+          {grid && <CartesianGrid stroke="#dee2ff" strokeDasharray="5 5"/>}
         </LineChart>
       </ResponsiveContainer>
     </ChartContainer>

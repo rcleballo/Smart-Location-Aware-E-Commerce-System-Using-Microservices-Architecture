@@ -33,7 +33,7 @@ const client = new Eureka({
 client.logger.level('debug')
 
 client.start( error => {
-    console.log(error || "Product Service registered")
+    console.log(error || "Order Service registered")
 });
 
 

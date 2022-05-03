@@ -116,7 +116,7 @@ const NewProduct = () => {
         });
       }
     );
-  };
+  }; 
 
   return (
     <Container>
@@ -132,9 +132,9 @@ const NewProduct = () => {
           />
         </ProductItem>
         <ProductItem>
-          <ProductItemLabel>Name</ProductItemLabel>
+          <ProductItemLabel>Title</ProductItemLabel>
           <ProductItemInput
-            name="name"
+            name="title"
             type="text" 
             placeholder="MSI GF65 thin 9SD"
             onChange={handleChange}
@@ -153,25 +153,21 @@ const NewProduct = () => {
           <ProductItemLabel>Price</ProductItemLabel>
           <ProductItemInput
             name="price"
-            type="text" 
-            placeholder="M 20 000"
+            type="number" 
+            placeholder="20000"
             onChange={handleChange}
           />
         </ProductItem>
         <ProductItem>
           <ProductItemLabel>Categories</ProductItemLabel>
           <ProductItemInput
-            name="cat"
-            type="Computers" 
-            onChange={handleChange}
+            type="text"
+            placeholder='Gadgets, Computers' 
+            onChange={handleCat}
           />
         </ProductItem>
         <ProductItem>
           <ProductItemLabel>Stock</ProductItemLabel>
-          <ProductItemInput type="text" placeholder="10" onChange={handleChange} />
-        </ProductItem>
-        <ProductItem>
-          <ProductItemLabel>Active</ProductItemLabel>
           <ProductItemSelect name="inStock" onChange={handleChange}>
             <ProductItemOption value="true">Yes</ProductItemOption>
             <ProductItemOption value="false">No</ProductItemOption>

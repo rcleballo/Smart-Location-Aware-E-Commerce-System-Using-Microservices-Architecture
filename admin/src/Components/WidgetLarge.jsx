@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import {format} from "timeago.js"
+import { userRequest } from '../requestMethods';
 
 const Widget = styled.div`
   flex: 2;
@@ -15,6 +18,10 @@ const WidgetTitle = styled.h3`
 const WidgetTable = styled.table`
   width: 100%;
   border-spacing: 20px;
+`;
+
+const WidgetTbody = styled.tbody`
+
 `;
 
 const WidgetTr = styled.tr`
@@ -82,6 +89,18 @@ const WidgetButton = styled.button`
 `;
 
 const WidgetLarge = () => {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        const res = await userRequest.get("orders");
+        setOrders(res.data);
+      } catch {}
+    };
+    getOrders();
+  }, []);
+
   const Button = ({ type }) => {
     return <WidgetButton type={type}>{ type }</WidgetButton>
   }
@@ -90,78 +109,26 @@ const WidgetLarge = () => {
     <Widget>
       <WidgetTitle>Latest Translations</WidgetTitle>
       <WidgetTable>
-        <WidgetTr>
-          <WidgetTh>Customer</WidgetTh>
-          <WidgetTh>Date</WidgetTh>
-          <WidgetTh>Amount</WidgetTh>
-          <WidgetTh>Status</WidgetTh>
-        </WidgetTr>
-        <WidgetTr>
-          <WidgetTd>
-            <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png" />
-            <UserName>Average Joe</UserName>
-          </WidgetTd>
-          <Date>01 Jan 2022</Date>
-          <Amount>M300</Amount>
-          <Status>
-            <Button type="Approved" />
-          </Status>
-        </WidgetTr>
-        <WidgetTr>
-          <WidgetTd>
-            <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png" />
-            <UserName>Average Jane</UserName>
-          </WidgetTd>
-          <Date>01 Jan 2022</Date>
-          <Amount>M300</Amount>
-          <Status>
-            <Button type="Declined" />
-          </Status>
-        </WidgetTr>
-        <WidgetTr>
-          <WidgetTd>
-            <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png" />
-            <UserName>John Smith</UserName>
-          </WidgetTd>
-          <Date>01 Jan 2022</Date>
-          <Amount>M300</Amount>
-          <Status>
-            <Button type="Pending" />
-          </Status>
-        </WidgetTr>
-        <WidgetTr>
-          <WidgetTd>
-            <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png" />
-            <UserName>Average Joe</UserName>
-          </WidgetTd>
-          <Date>01 Jan 2022</Date>
-          <Amount>M300</Amount>
-          <Status>
-            <Button type="Approved" />
-          </Status>
-        </WidgetTr>
-        <WidgetTr>
-          <WidgetTd>
-            <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png" />
-            <UserName>Average Jane</UserName>
-          </WidgetTd>
-          <Date>01 Jan 2022</Date>
-          <Amount>M300</Amount>
-          <Status>
-            <Button type="Declined" />
-          </Status>
-        </WidgetTr>
-        <WidgetTr>
-          <WidgetTd>
-            <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png" />
-            <UserName>John Smith</UserName>
-          </WidgetTd>
-          <Date>01 Jan 2022</Date>
-          <Amount>M300</Amount>
-          <Status>
-            <Button type="Pending" />
-          </Status>
-        </WidgetTr>
+        <WidgetTbody>
+          <WidgetTr>
+            <WidgetTh>Customer</WidgetTh>
+            <WidgetTh>Date</WidgetTh>
+            <WidgetTh>Amount</WidgetTh>
+            <WidgetTh>Status</WidgetTh>
+          </WidgetTr>
+          {orders.map((order) => (
+            <WidgetTr key={order._id}>
+              <WidgetTd>
+                <UserName>{order.userId}</UserName>
+              </WidgetTd>
+              <Date>{format(order.createdAt)}</Date>
+              <Amount>M{order.amount}</Amount>
+              <Status>
+                <Button type={order.status} />
+              </Status>
+            </WidgetTr>
+          ))}
+        </WidgetTbody>
       </WidgetTable>
     </Widget>
   )
