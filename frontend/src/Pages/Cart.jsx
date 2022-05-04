@@ -8,6 +8,7 @@ import Footer from '../Components/Footer';
 import styled from 'styled-components';
 import { Add, AddCircle, Remove, RemoveCircle } from '@material-ui/icons';
 import { mobile } from '../responsive';
+import { Link } from "react-router-dom";
 
 const Container = styled.div``;
 
@@ -159,7 +160,7 @@ const Button = styled.button`
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
-  const history = useNavigate();
+  const user = useSelector((state) => state.user.currentUser);
 
   return (
     <Container>
@@ -168,7 +169,9 @@ const Cart = () => {
       <Wrapper>
         <Title>YOUR CART</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+          <Link to='/'>
+            <TopButton>CONTINUE SHOPPING</TopButton>
+          </Link>
           <TopTexts>
             <TopText>Cart(2)</TopText>
             <TopText>Wishlist(0)</TopText>
@@ -207,26 +210,6 @@ const Cart = () => {
               </Product>
             ))}
             <Hr/>
-            <Product>
-              <ProductDetail>
-                <Image src='https://i.ibb.co/CPsvTZh/brother.png'/>
-                <Details>
-                  <ProductName><b>Product:</b> MEN'S BAG</ProductName>
-                  <ProductId><b>ID:</b> 12345678</ProductId>
-                  <ProductColor color='black'/>
-                  <ProductSize><b>Size:</b> 32</ProductSize>
-                </Details>
-              </ProductDetail>
-              <ProductDetail></ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <AddCircle/>
-                  <ProductAmount>1</ProductAmount>
-                  <RemoveCircle/>
-                </ProductAmountContainer>
-                <ProductPrice>M 100</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
           <Summary>
           <SummaryTitle>ORDER SUMMARY</SummaryTitle>
@@ -244,9 +227,11 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total + 40}</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <Link to={user ? '/success' : '/login'}>
+              <Button>CHECKOUT NOW</Button>
+            </Link>
           </Summary>
         </Bottom>
       </Wrapper>

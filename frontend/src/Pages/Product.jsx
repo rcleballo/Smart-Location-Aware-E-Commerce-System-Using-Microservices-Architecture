@@ -27,8 +27,8 @@ const ImgContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 120vh;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;
   ${mobile({ height: "60vh" })}
 `;
 
@@ -210,7 +210,7 @@ const Product = () => {
       </Wrapper>
       <Related>
         <RelatedTitle>YOU MAY ALSO LIKE</RelatedTitle>
-        <Products limit = {5}/>
+        <Products />
       </Related>
       <Footer/>
     </Container>

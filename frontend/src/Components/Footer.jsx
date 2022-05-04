@@ -86,7 +86,7 @@ const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>ShopE</Logo>
+        <Logo>E-Shop</Logo>
         <Desc>
           Shop online with the best experience
         </Desc>
@@ -126,7 +126,7 @@ const Footer = () => {
           <Phone style={{marginRight:"10px"}}/> +266 56189749
         </ContactItem>
         <ContactItem>
-          <MailOutline style={{marginRight:"10px"}} /> contact@shope
+          <MailOutline style={{marginRight:"10px"}} /> contact@eshop
         </ContactItem>
         <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
       </Right>

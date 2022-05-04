@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { Search, ShoppingCartOutlined } from '@material-ui/icons';
 import { Badge } from '@material-ui/core';
 import { mobile } from '../responsive';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   height: 60px;
@@ -68,7 +69,17 @@ const Language = styled.span`
   ${mobile({ display: "none" })}
 `
 
+const CustomeLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
+
 const Navbar = () => {
+  const quantity = useSelector(state=>state.cart.quantity);
+  const location = useLocation();
+  const loc = location.pathname.substring(location.pathname.indexOf("/") + 1);;
+  const user = useSelector((state) => state.user.currentUser);
+  
   return (
   <Container>
     <Wrapper>
@@ -79,14 +90,20 @@ const Navbar = () => {
           <Search style={{color: "grey", fontSize:16}}/>
         </SearchContainer>
       </Left>
-      <Center><Logo>ShopE</Logo></Center>
+      <CustomeLink to='/'>
+        <Center><Logo>E-Shop</Logo></Center>
+      </CustomeLink>
       <Right>
         <MenuItem>STORES</MenuItem>
-        <MenuItem>REGISTER</MenuItem>
-        <MenuItem>SIGN IN</MenuItem>
+        <CustomeLink to={user ? '/'+loc : '/register'}>
+          <MenuItem>REGISTER</MenuItem>
+        </CustomeLink>
+        <CustomeLink to={user ? '/'+loc : '/login'}>
+          <MenuItem>SIGN IN</MenuItem>
+        </CustomeLink>
         <Link to="/cart">
           <MenuItem>
-            <Badge badgeContent={4} color="primary">
+            <Badge badgeContent={quantity} color="primary">
               <ShoppingCartOutlined />
             </Badge>
           </MenuItem>

@@ -43,6 +43,7 @@ const Container = styled.div`
 const Image = styled.img`
   height: 75%;
   z-index: 2;
+  object-fit: contain;
 `;
 
 const Icon = styled.div`
@@ -62,16 +63,14 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item }) => {
+  
   return (
     <Container>
       <Image src={item.img} />
       <Info>
         <Icon>
-          <ShoppingCartOutlined />
-        </Icon>
-        <Icon>
           <Link to={`/product/${item._id}`}>
-            <SearchOutlined />
+          <ShoppingCartOutlined />
           </Link>
         </Icon>
         <Icon>

@@ -63,10 +63,6 @@ const Products = ({ limit, cat, filters, sort }) => {
         : products
             .slice(0, 8)
             .map((item) => <Product item={item} key={item.id} />)}
-      
-      {popularProducts.slice(0, limit).map((item) => (
-        <Product item={item} key={item.id} />
-      ))}
     </Container>
   );
 };

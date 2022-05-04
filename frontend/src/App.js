@@ -6,6 +6,7 @@ import ProductList from './Pages/ProductList';
 import Cart from './Pages/Cart';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
+import Success from './Pages/Success';
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -14,11 +15,12 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={ <Home/> } />
-        <Route path='/productList' element={ <ProductList/> } />
-        <Route path='/product' element={ <Product/> } />
+        <Route path='/products/:category' element={ <ProductList/> } />
+        <Route path='/product/:id' element={ <Product/> } />
         <Route path='/cart' element={ <Cart/> } />
+        <Route path='/success' element={ < Success/> } />
         <Route path='/login' element={ user ? (
-            <Navigate replace to='/' />
+            <Navigate replace to='/cart' />
           ) : (
             <Login/>) } 
         />
