@@ -62,8 +62,8 @@ const Home = () => {
         dataKey="Active User"
       />
       <Widgets>
-        <WidgetSmall />
-        <WidgetLarge />
+        <WidgetSmall title='New Users' />
+        <WidgetLarge title='Latest Translations' />
       </Widgets>
     </Container>
   )

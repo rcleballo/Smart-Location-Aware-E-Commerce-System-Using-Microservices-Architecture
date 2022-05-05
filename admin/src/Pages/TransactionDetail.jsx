@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   flex: 4;
@@ -84,7 +85,7 @@ const TransactionTopTotalName = styled.span`
 `;
 
 const TransactionTopTotal = styled.span`
-  font-weight: 300;
+  font-weight: 500;
 `;
 
 const TransactionContactContainer = styled.div`
@@ -117,6 +118,12 @@ const TransactionShippingContainer = styled.div`
 const TransactionDetail = (props) => {
   const location = useParams();
 
+  const order = useSelector((state) =>
+    state.order.orders.find((order) => order._id === location.transId)
+  );
+
+  console.log(order);
+
   return (
     <Container>
       <TransactionTitleContainer>
@@ -125,61 +132,25 @@ const TransactionDetail = (props) => {
       <TransactionTop>
         <TransactionTopTitle>Items</TransactionTopTitle>
         <Hr />
-        <TransactionTopItems>
-          <Image src="https://i.ibb.co/HNYjMxp/81-Xdqh0b-WGL-AC-SY355.jpg" alt="" />
-          <TransactionTopItemName>MSI GF65 thin 9SD</TransactionTopItemName>
-          <TransactionTopItemPrice>M 20000</TransactionTopItemPrice>
-          <TransactionTopItemCount>2</TransactionTopItemCount>
-          <TransactionTopItemPrice>M 40000</TransactionTopItemPrice>
-        </TransactionTopItems>
-        <TransactionTopItems>
-          <Image src="https://i.ibb.co/HNYjMxp/81-Xdqh0b-WGL-AC-SY355.jpg" alt="" />
-          <TransactionTopItemName>MSI GF65 thin 9SD</TransactionTopItemName>
-          <TransactionTopItemPrice>M 20000</TransactionTopItemPrice>
-          <TransactionTopItemCount>1</TransactionTopItemCount>
-          <TransactionTopItemPrice>M 40000</TransactionTopItemPrice>
-        </TransactionTopItems>
-        <TransactionTopItems>
-          <Image src="https://i.ibb.co/HNYjMxp/81-Xdqh0b-WGL-AC-SY355.jpg" alt="" />
-          <TransactionTopItemName>MSI GF65 thin 9SD</TransactionTopItemName>
-          <TransactionTopItemPrice>M 20000</TransactionTopItemPrice>
-          <TransactionTopItemCount>2</TransactionTopItemCount>
-          <TransactionTopItemPrice>M 40000</TransactionTopItemPrice>
-        </TransactionTopItems>
-        <TransactionTopItems>
-          <Image src="https://i.ibb.co/HNYjMxp/81-Xdqh0b-WGL-AC-SY355.jpg" alt="" />
-          <TransactionTopItemName>MSI GF65 thin 9SD</TransactionTopItemName>
-          <TransactionTopItemPrice>M 20000</TransactionTopItemPrice>
-          <TransactionTopItemCount>1</TransactionTopItemCount>
-          <TransactionTopItemPrice>M 40000</TransactionTopItemPrice>
-        </TransactionTopItems>
-        <Hr />
-        <TransactionTopTotalContainer>
-          <TransactionTopTotalName>Subtotal</TransactionTopTotalName>
-          <TransactionTopTotal>M 120000</TransactionTopTotal>
-        </TransactionTopTotalContainer>
-        <TransactionTopTotalContainer>
-          <TransactionTopTotalName>Shipping</TransactionTopTotalName>
-          <TransactionTopTotal>M 1200</TransactionTopTotal>
-        </TransactionTopTotalContainer>
+        {order.products.map((order) => (
+          <TransactionTopItems id={order.productId}>
+            <TransactionTopItemName>ID: {order.productId}</TransactionTopItemName>
+            <TransactionTopItemCount>Quantity: {order.quantity}</TransactionTopItemCount>
+          </TransactionTopItems>
+        ))}
         <Hr />
         <TransactionTopTotalContainer>
           <TransactionTopTotalName>Total</TransactionTopTotalName>
-          <TransactionTopTotal>M 122200</TransactionTopTotal>
+          <TransactionTopTotal>M {order.amount}</TransactionTopTotal>
         </TransactionTopTotalContainer>
       </TransactionTop>
       <TransactionContactContainer>
-        <TransactionContactTitle>Contact</TransactionContactTitle>
-        <TransactionContactName style={{ fontWeight: "400" }}>John Smith</TransactionContactName>
-        <TransactionContactName style={{ fontWeight: "400", color: "#023e8a" }}>johnsmith@gmail</TransactionContactName>
-        <TransactionContactName style={{ fontWeight: "400", color: "#6c757d" }}>+266 5687 5643</TransactionContactName>
+        <TransactionContactTitle>Customer</TransactionContactTitle>
+        <TransactionContactName style={{ fontWeight: "400" }}>User ID: {order.userId}</TransactionContactName>
       </TransactionContactContainer>
       <TransactionShippingContainer>
         <TransactionContactTitle>Shipping Address</TransactionContactTitle>
-        <TransactionContactName style={{ fontWeight: "400" }}>John Smith</TransactionContactName>
-        <TransactionContactName style={{ fontWeight: "400" }}>Roma 180</TransactionContactName>
-        <TransactionContactName style={{ fontWeight: "400" }}>Maseru 100</TransactionContactName>
-        <TransactionContactName style={{ fontWeight: "400" }}>Lesotho</TransactionContactName>
+        <TransactionContactName style={{ fontWeight: "400" }}>{order.address}</TransactionContactName>
       </TransactionShippingContainer>
     </Container>
   )

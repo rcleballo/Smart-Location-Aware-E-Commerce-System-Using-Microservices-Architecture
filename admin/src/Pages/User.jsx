@@ -1,5 +1,6 @@
 import { CalendarToday, LocationSearching, MailOutline, PermIdentity, PhoneAndroid, Publish } from '@material-ui/icons';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -166,6 +167,13 @@ const UserUpdateButton = styled.button`
 `;
 
 const User = () => {
+  const location = useLocation();
+  const userId = location.pathname.split("/")[2];
+
+  const user = useSelector((state) =>
+    state.user.users.find((user) => user._id === userId)
+  );
+
   return (
     <Container>
       <UserTitleContainer>
@@ -177,34 +185,20 @@ const User = () => {
       <UserContainer>
         <UserDisplay>
           <UserDisplayTop>
-            <ProfileImage src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png" alt='' />
             <UserDisplayTopTitle>
-              <UserDisplayUsername>John Smith</UserDisplayUsername>
-              <UserDisplayEmail>johnsmith@gmail.com</UserDisplayEmail>
+              <UserDisplayUsername>{user.name}</UserDisplayUsername>
+              <UserDisplayEmail>{user.email}</UserDisplayEmail>
             </UserDisplayTopTitle>
           </UserDisplayTop>
           <UserDisplayBottom>
             <UserDisplayBottomTitle>Account Details</UserDisplayBottomTitle>
             <UserDisplayBottomInfo>
               <PermIdentity style={{fontSize: '16px'}} />
-              <UserDisplayBottomInfoTitle>John Smith</UserDisplayBottomInfoTitle>
-            </UserDisplayBottomInfo>
-            <UserDisplayBottomInfo>
-              <CalendarToday style={{fontSize: '16px'}} />
-              <UserDisplayBottomInfoTitle>1/12/1999</UserDisplayBottomInfoTitle>
-            </UserDisplayBottomInfo>
-            <UserDisplayBottomTitle>Contact Details</UserDisplayBottomTitle>
-            <UserDisplayBottomInfo>
-              <PhoneAndroid style={{fontSize: '16px'}} />
-              <UserDisplayBottomInfoTitle>+266 5687 5643</UserDisplayBottomInfoTitle>
+              <UserDisplayBottomInfoTitle>{user.name} {user.lastName}</UserDisplayBottomInfoTitle>
             </UserDisplayBottomInfo>
             <UserDisplayBottomInfo>
               <MailOutline style={{fontSize: '16px'}} />
-              <UserDisplayBottomInfoTitle>johnsmith@gmail.com</UserDisplayBottomInfoTitle>
-            </UserDisplayBottomInfo>
-            <UserDisplayBottomInfo>
-              <LocationSearching style={{fontSize: '16px'}} />
-              <UserDisplayBottomInfoTitle>Maseru Roma 180 Lesotho</UserDisplayBottomInfoTitle>
+              <UserDisplayBottomInfoTitle>{user.email}</UserDisplayBottomInfoTitle>
             </UserDisplayBottomInfo>
           </UserDisplayBottom>
         </UserDisplay>
@@ -215,48 +209,29 @@ const User = () => {
               <UserUpdateItem>
                 <UserUpdateItemLabel>Username</UserUpdateItemLabel>
                 <UserUpdateInput type="text" 
-                placeholder="John Smith"
+                placeholder={user.username}
                 />
               </UserUpdateItem>
               <UserUpdateItem>
-                <UserUpdateItemLabel>Full Name</UserUpdateItemLabel>
+                <UserUpdateItemLabel>First Name</UserUpdateItemLabel>
                 <UserUpdateInput type="text" 
-                placeholder="John Smith"
+                placeholder={user.name}
+                />
+              </UserUpdateItem>
+              <UserUpdateItem>
+                <UserUpdateItemLabel>First Name</UserUpdateItemLabel>
+                <UserUpdateInput type="text" 
+                placeholder={user.lastName}
                 />
               </UserUpdateItem>
               <UserUpdateItem>
                 <UserUpdateItemLabel>Email</UserUpdateItemLabel>
                 <UserUpdateInput type="text" 
-                placeholder="johnsmith@gmail.com"
-                />
-              </UserUpdateItem>
-              <UserUpdateItem>
-                <UserUpdateItemLabel>Date of Birth</UserUpdateItemLabel>
-                <UserUpdateInput type="text" 
-                placeholder="01/12/1999"
-                />
-              </UserUpdateItem>
-              <UserUpdateItem>
-                <UserUpdateItemLabel>Phone Number</UserUpdateItemLabel>
-                <UserUpdateInput type="text" 
-                placeholder="+266 5687 5643"
-                />
-              </UserUpdateItem>
-              <UserUpdateItem>
-                <UserUpdateItemLabel>Address</UserUpdateItemLabel>
-                <UserUpdateInput type="text" 
-                placeholder="Maseru Roma 180 Lesotho"
+                placeholder={user.email}
                 />
               </UserUpdateItem>
             </UserUpdateLeft>
             <UserUpdateRight>
-              <UserUpdateUpload>
-                <UserUpdateImage src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png" alt="" />
-                <UserUpdateLabel  htmlFor="file">
-                  <Publish style={{ cursor: 'pointer' }} />
-                </UserUpdateLabel>
-                <UserUpdateUploadInput type="file" id="file" />
-              </UserUpdateUpload>
               <UserUpdateButton>Update</UserUpdateButton>
             </UserUpdateRight>
           </UserUpdateForm>

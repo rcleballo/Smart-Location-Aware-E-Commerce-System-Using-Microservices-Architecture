@@ -206,7 +206,7 @@ const Product = () => {
     };
     getStats();
   }, [productId, MONTHS]);
-  console.log(pStats);
+
   return (
     <Container>
       <ProductTitleContainer>

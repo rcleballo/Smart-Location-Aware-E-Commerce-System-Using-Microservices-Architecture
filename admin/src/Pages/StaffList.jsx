@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { DataGrid } from '@mui/x-data-grid';
 import { Delete } from '@material-ui/icons';
-import { staffRows } from '../data';
+import { userRows } from '../data';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteUser, getUsers } from '../redux/apiCalls';
 
 const Container = styled.div`
   flex: 4;
@@ -32,39 +34,23 @@ const EditButton = styled.button`
   margin-right: 20px;
 `;
 
-const StaffList = () => {
-  const [data, setData] = useState(staffRows);
+const UserList = () => {
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.user.users);
+
+  useEffect(() => {
+    getUsers(dispatch);
+  }, [dispatch]);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  }
+    deleteUser(id, dispatch);
+  };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'name', headerName: 'Name', width: 210, renderCell: (params) => {
-      return (
-        <UserContainer>
-          <Image src={params.row.avatar} alt="" />
-          {params.row.name}
-        </UserContainer>
-      )
-    } },
+    { field: '_id', headerName: 'ID', width: 220 },
+    { field: 'name', headerName: 'User', width: 210},
     { field: 'email', headerName: 'Email', width: 180 },
-    {
-      field: 'contact',
-      headerName: 'Contact',
-      width: 100,
-    },
-    {
-      field: 'joiningDate',
-      headerName: 'Joining Date',
-      width: 140,
-    },
-    {
-      field: 'role',
-      headerName: 'Role',
-      width: 140,
-    },
+    { field: 'isAdmin', headerName: 'Admin', width: 180 },
     {
       field: 'action',
       headerName: 'Action',
@@ -72,10 +58,10 @@ const StaffList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={'/staff/'+params.row.id}>
+            <Link to={'/user/'+params.row._id}>
               <EditButton>Edit</EditButton>
             </Link>
-            <Delete style={{ color: '#d90429', cursor: 'pointer' }} onClick={() => handleDelete(params.row.id)}/>
+            <Delete style={{ color: '#d90429', cursor: 'pointer' }} onClick={() => handleDelete(params.row._id)}/>
           </>
         )
       }
@@ -85,15 +71,22 @@ const StaffList = () => {
   return (
     <Container>
       <DataGrid
-        rows={data}
+        rows={users}
         disableSelectionOnClick
         columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[5]}
+        getRowId={(row) => row._id}
+        pageSize={8}
         checkboxSelection
+        filterModel={{
+          items: [
+            { columnField: 'isAdmin',
+              operatorValue: 'contains', 
+              value: 'true' },
+          ],
+        }}
       />
     </Container>
   )
 }
 
-export default StaffList
+export default UserList

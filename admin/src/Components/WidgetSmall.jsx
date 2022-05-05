@@ -60,7 +60,7 @@ const WidgetButton = styled.button`
   cursor: pointer;
 `;
 
-const WidgetSmall = () => {
+const WidgetSmall = ({title}) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const WidgetSmall = () => {
 
   return (
     <Widget>
-      <WidgetTitle>New Users</WidgetTitle>
+      <WidgetTitle>{title}</WidgetTitle>
       <WidgetList>
       {users.map((user) => (
         <WidgetListItem key={user._id}>

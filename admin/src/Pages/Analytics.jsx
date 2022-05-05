@@ -2,11 +2,18 @@ import { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import Chart from '../Components/Chart';
 import FeaturedInfo from '../Components/FeaturedInfo';
+import WidgetLarge from '../Components/WidgetLarge';
+import WidgetSmall from '../Components/WidgetSmall';
 import { userData, salesData } from '../data';
 import { userRequest } from '../requestMethods';
 
 const Container = styled.div`
   flex: 4;
+`;
+
+const Widgets = styled.div`
+  display: flex;
+  margin: 20px;
 `;
 
 const Analytics = () => {
@@ -49,6 +56,10 @@ const Analytics = () => {
       <FeaturedInfo />
       <Chart data={userData} title="User Analytics" grid dataKey="Active Users"/>
       <Chart data={salesStats} title="Sales Analytics" grid dataKey="Sales"/>
+      <Widgets>
+        <WidgetSmall title='Users' />
+        <WidgetLarge title='Translations' />
+      </Widgets>
     </Container>
   )
 }

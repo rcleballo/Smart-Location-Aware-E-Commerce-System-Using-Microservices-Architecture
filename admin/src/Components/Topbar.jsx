@@ -74,7 +74,6 @@ const Topbar = () => {
           <TopIconContainer>
             <Settings />
           </TopIconContainer>
-          <Image src="https://i.ibb.co/r7hyySM/cda8ff1bcb7f335719b146d61f6f494a.png"/>
         </TopRight>
       </Wrapper>
     </Container>

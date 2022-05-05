@@ -88,7 +88,7 @@ const WidgetButton = styled.button`
   }};
 `;
 
-const WidgetLarge = () => {
+const WidgetLarge = ({title}) => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const WidgetLarge = () => {
 
   return (
     <Widget>
-      <WidgetTitle>Latest Translations</WidgetTitle>
+      <WidgetTitle>{title}</WidgetTitle>
       <WidgetTable>
         <WidgetTbody>
           <WidgetTr>

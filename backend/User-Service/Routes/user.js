@@ -16,6 +16,8 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
     ).toString();
   }
 
+  console.log(req.body);
+
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
@@ -26,6 +28,7 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
     );
     res.status(200).json(updatedUser);
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -52,7 +55,7 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
 });
 
 //GET ALL USER
-router.get("/", verifyTokenAndAdmin, async (req, res) => {
+router.get("/", async (req, res) => {
   const query = req.query.new;
   try {
     const users = query
