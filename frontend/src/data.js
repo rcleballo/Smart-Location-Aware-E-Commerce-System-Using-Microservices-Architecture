@@ -33,7 +33,7 @@ export const categories = [
     id: 2,
     img: "https://i.ibb.co/VjKBbBx/22087-11.jpg",
     title: "Shirts",
-    cat:"shirts"
+    cat:"shirt"
   },
   {
     id: 3,

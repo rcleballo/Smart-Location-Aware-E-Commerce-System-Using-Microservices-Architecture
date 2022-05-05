@@ -2,8 +2,10 @@ import styled from 'styled-components';
 import { Delete, Visibility } from '@material-ui/icons';
 import { transactionRows } from '../data';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteOrder, getOrders } from '../redux/apiCalls';
 
 const Container = styled.div`
   flex: 4;
@@ -47,16 +49,22 @@ const StatusButton = styled.button`
 `;
 
 const Transactions = () => {
-  const [data, setData] = useState(transactionRows);
+  const dispatch = useDispatch();
+  const orders = useSelector((state) => state.order.orders);
+  console.log(orders);
+
+  useEffect(() => {
+    getOrders(dispatch);
+  }, [dispatch]);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  }
+    deleteOrder(id, dispatch);
+  };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 30 },
-    { field: 'date', headerName: 'Date', width: 100 },
-    { field: 'customer', headerName: 'Customer', width: 120 },
+    { field: '_id', headerName: 'ID', width: 200 },
+    { field: 'createdAt', headerName: 'Date', width: 150 },
+    { field: 'userId', headerName: 'Customer', width: 220 },
     {
       field: 'status',
       headerName: 'Status',
@@ -67,9 +75,8 @@ const Transactions = () => {
         )
       }
     },
-    { field: 'items', headerName: 'Items', width: 50 },
     {
-      field: 'total',
+      field: 'amount',
       headerName: 'Total',
       width: 80,
     },
@@ -80,13 +87,13 @@ const Transactions = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={'/transactions/'+params.row.id} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link to={'/transactions/'+params.row._id} style={{ textDecoration: 'none', color: 'inherit' }}>
               <ViewButton>
                 <Visibility style={{ fontSize: "16px", marginRight: "5px"}}/>
                 Display
               </ViewButton>
             </Link>
-            <Delete style={{ color: '#d90429', cursor: 'pointer', marginLeft: "10px" }} onClick={() => handleDelete(params.row.id)}/>
+            <Delete style={{ color: '#d90429', cursor: 'pointer', marginLeft: "10px" }} onClick={() => handleDelete(params.row._id)}/>
           </>
         )
       }
@@ -96,11 +103,11 @@ const Transactions = () => {
   return (
     <Container>
       <DataGrid
-        rows={data}
+        rows={orders}
         disableSelectionOnClick
         columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[5]}
+        getRowId={(row) => row._id}
+        pageSize={8}
         checkboxSelection
       />
     </Container>

@@ -9,6 +9,7 @@ try {
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.token;
+  console.log("header: "+authHeader);
   if (authHeader) {
     const token = authHeader.split(" ")[1];
     jwt.verify(token, process.env.JWT_SEC, (err, user) => {
@@ -24,6 +25,7 @@ const verifyToken = (req, res, next) => {
 };
 
 const verifyTokenAndAuthorization = (req, res, next) => {
+  console.log(req);
   verifyToken(req, res, () => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
       next();
