@@ -28,6 +28,10 @@ spring:
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/api/orders/**
+        - id: recommendations
+          uri: lb://RECOMMENDATIONS-SERVICE
+          predicates:
+            - Path=/api/recommendations/**
       globalcors:
         corsConfigurations:
           '[/**]':
