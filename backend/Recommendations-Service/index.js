@@ -23,27 +23,38 @@ try {
          args: req.params.prod
       }
 
+      const images = [
+         "https://firebasestorage.googleapis.com/v0/b/smart-location-aware-ecommerce.appspot.com/o/1654803475561il_fullxfull.3581965582_54uq.webp?alt=media&token=99a405b8-da71-4f5b-8b7f-046948d5958a",
+         "https://firebasestorage.googleapis.com/v0/b/smart-location-aware-ecommerce.appspot.com/o/1654803475561il_fullxfull.3581965582_54uq.webp?alt=media&token=99a405b8-da71-4f5b-8b7f-046948d5958a",
+         "https://firebasestorage.googleapis.com/v0/b/smart-location-aware-ecommerce.appspot.com/o/e0dc9dda8c919d13d9c51fd65a21e523--vintage-cupcake-fairy-cakes.jpg?alt=media&token=5f4221e1-1c09-46a8-a68f-2ae3770aa10d",
+         "https://firebasestorage.googleapis.com/v0/b/smart-location-aware-ecommerce.appspot.com/o/download.jpg?alt=media&token=4ad0d96c-b921-4ed7-887a-19b544139bb6"
+      ];
+
       PythonShell.run('recommendation.py', options, function(err, results) {
          if (err) throw err;
          let finalRes = [];
          let recObjects = [];
-         let recObject = new Object();
-         for (let i = 1; i <= 5; i++) {
-            finalRes[i-1] = results[i].replace(/[.0-9]/g, '').trim();
+         for (let i = 2; i <= 5; i++) {
+            finalRes[i-2] = results[i].replace(/[.0-9]/g, '').trim();
+         }
+         
+         for (let i = 0; i < 4; i++) {
+            let recObject = new Object();
             recObject.inStock = true,
-            recObject._id = "62719bb67f87c78dfdfbb7ca"
-            recObject.title = finalRes[i-1];
-            recObject.desc = "Best shirt";
-            recObject.img = "https://firebasestorage.googleapis.com/v0/b/smart-location-aware-ecommerce.appspot.com/o/165170559781122087-11.jpg?alt=media&token=0dee5364-64f1-4d02-844b-4f7c6e27d13d"
-            recObject.categories = ["shirt"];
+            recObject._id = "62719bb67f87c78dfdfbb7ca",
+            recObject.title = finalRes[i];
+            recObject.desc = "Recommendation";
+            recObject.img = images[Math.floor(Math.random() * images.length)];
+            recObject.categories = ["recommended"];
             recObject.size = ["S"];
             recObject.color = "White";
             recObject.price = 1000;
-            recObjects.push(recObject);
+            console.log(recObject);
+            recObjects[i] = recObject;
          }
- 
+
          console.log(recObjects);
-         console.log(results[1].replace(/[.0-9]/g, '').trim());
+
          res.status(200).json(recObjects);
       });
    });

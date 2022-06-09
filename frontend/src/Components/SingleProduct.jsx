@@ -62,6 +62,11 @@ const Icon = styled.div`
   }
 `;
 
+const Title = styled.h1`
+  font-weight: 200;
+  font-size: 20px;
+`;
+
 const SingleProduct = ({ item }) => {
   
   return (
@@ -77,6 +82,7 @@ const SingleProduct = ({ item }) => {
           <FavoriteBorderOutlined />
         </Icon>
       </Info>
+      {/*<Title>{item.title}</Title>*/}
     </Container>
   );
 };

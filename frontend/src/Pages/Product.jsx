@@ -165,6 +165,7 @@ const Product = () => {
   useEffect(() => {
     const getRecommendation = async () => {
       try {
+        console.log(product);
         if (product.title) {
           const res = await publicRequest.get("/recommendations/" + product.title);
           setRecProd(res.data);
