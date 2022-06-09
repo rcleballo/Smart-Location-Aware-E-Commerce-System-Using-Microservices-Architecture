@@ -1,10 +1,10 @@
 import Navbar from '../Components/Navbar';
 import Announcement from '../Components/Announcement';
 import Footer from '../Components/Footer';
+import SingleProduct from '../Components/SingleProduct';
 import styled from 'styled-components';
 import { Add, Remove } from '@material-ui/icons';
 import { mobile } from '../responsive';
-import Products from '../Components/Products';
 import { publicRequest } from "../RequestMethods";
 import { addProduct } from "../Redux/CartRedux";
 import { useDispatch } from "react-redux";
@@ -135,10 +135,18 @@ const RelatedTitle = styled.h1`
   font-size: 20px;
 `;
 
+const ProductsContainer = styled.div`
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+`;
+
 const Product = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [product, setProduct] = useState({});
+  const [recProd, setRecProd] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
@@ -152,7 +160,16 @@ const Product = () => {
       } catch {}
     };
     getProduct();
-  }, [id]);
+
+    const getRecommendation = async () => {
+      try {
+        const res = await publicRequest.get("/recommendations/WHITE HANGING HEART T-LIGHT HOLDER");
+        setRecProd(res.data);
+        console.log(recProd);
+      } catch {}
+    }
+    getRecommendation()
+  }, [id, recProd]);
 
   const handleQuantity = (type) => {
     if (type === "dec") {
@@ -210,7 +227,11 @@ const Product = () => {
       </Wrapper>
       <Related>
         <RelatedTitle>YOU MAY ALSO LIKE</RelatedTitle>
-        <Products />
+        <ProductsContainer>
+          {recProd
+                .slice(0, 5)
+                .map((item) => <SingleProduct item={item} key={item.id} />)}
+        </ProductsContainer>
       </Related>
       <Footer/>
     </Container>
