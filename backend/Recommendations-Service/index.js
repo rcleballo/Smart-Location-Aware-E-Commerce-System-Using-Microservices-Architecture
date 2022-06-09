@@ -52,7 +52,7 @@ try {
  }
  
  app.listen(process.env.PORT || 5004, () => {
-   console.log("User-Service is running on port 5004");
+   console.log("Recommendations-Service is running on port 5004");
  });
  
  eurekaHelper.registerWithEureka('recommendations-Service', process.env.PORT);

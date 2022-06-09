@@ -160,16 +160,20 @@ const Product = () => {
       } catch {}
     };
     getProduct();
+  }, [id]);
 
+  useEffect(() => {
     const getRecommendation = async () => {
       try {
-        const res = await publicRequest.get("/recommendations/WHITE HANGING HEART T-LIGHT HOLDER");
-        setRecProd(res.data);
-        console.log(recProd);
+        if (product.title) {
+          const res = await publicRequest.get("/recommendations/" + product.title);
+          setRecProd(res.data);
+          console.log(recProd);
+        }
       } catch {}
     }
-    getRecommendation()
-  }, [id, recProd]);
+    getRecommendation();
+  }, [product]);
 
   const handleQuantity = (type) => {
     if (type === "dec") {
