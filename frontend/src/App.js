@@ -7,6 +7,7 @@ import Cart from './Pages/Cart';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Success from './Pages/Success';
+import Stores from './Pages/Stores';
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -19,6 +20,7 @@ const App = () => {
         <Route path='/product/:id' element={ <Product/> } />
         <Route path='/cart' element={ <Cart/> } />
         <Route path='/success' element={ < Success/> } />
+        <Route path='/stores' element={ < Stores/> } />
         <Route path='/login' element={ user ? (
             <Navigate replace to='/cart' />
           ) : (

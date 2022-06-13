@@ -94,7 +94,9 @@ const Navbar = () => {
         <Center><Logo>E-Shop</Logo></Center>
       </CustomeLink>
       <Right>
-        <MenuItem>STORES</MenuItem>
+        <CustomeLink to='/stores'>
+          <MenuItem>STORES</MenuItem>
+        </CustomeLink>
         <CustomeLink to={user ? '/'+loc : '/register'}>
           <MenuItem>REGISTER</MenuItem>
         </CustomeLink>
