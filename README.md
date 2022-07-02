@@ -19,7 +19,7 @@ dependencies are installed on your system:
 Create a .env file in all microservices containing:
 
 ```env
-MONGO_URL = mongo atlas url to database
+MONGO_URL = mongo atlas url to database. Send an email to kananelophakisi36@gmail.com for the ulr to this system's database
 PORT = port number of each microservice
 PASS_SEC = any secret key for encrypting password
 JWT_SEC = any secret key for generating JsonWebToken
