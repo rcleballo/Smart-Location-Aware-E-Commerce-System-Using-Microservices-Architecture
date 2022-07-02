@@ -19,31 +19,25 @@ dependencies are installed on your system:
 Create a .env file in all microservices containing:
 
 ```env
----
 MONGO_URL = mongo atlas url to database
 PORT = port number of each microservice
 PASS_SEC = any secret key for encrypting password
 JWT_SEC = any secret key for generating JsonWebToken
----
 ```
 
 Run the project:
 Navigate to Smart-Location-Aware-E-Commerce-System-Using-Microservices-Architecture/admin/
 
 ```
----
 npm install
 npm start
----
 ```
 
 Navigate to Smart-Location-Aware-E-Commerce-System-Using-Microservices-Architecture/frontend/
 
 ```
----
 npm install
 npm start
----
 ```
 
 Navigate to Smart-Location-Aware-E-Commerce-System-Using-Microservices-Architecture/backend/
@@ -54,8 +48,6 @@ Then proceed to run API-Gateway-Server
 for remaining each microservice's root folder, do:
 
 ```
----
 npm install
 nodemon index.js
----
 ```
