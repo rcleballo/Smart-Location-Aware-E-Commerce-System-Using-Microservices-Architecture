@@ -1,27 +1,61 @@
 # Smart-Location-Aware-E-Commerce-System-Using-Microservices-Architecture
-Final Year School Project By Phakisi K.S and Leballo R.
 
-For Authentication HS512 was used to sign JsonWebTokens
-cryptojs is used to encrypt passwords then store them in the database
-it used AES. Also used a secret key as salt
+## Description
 
-For API gateway, Netflix Zuul was used but provided the following error:
-```
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'scopedTarget.eurekaClient' defined in class path resource [org/springframework/cloud/netflix/eureka/EurekaClientAutoConfiguration$RefreshableEurekaClientConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.netflix.discovery.EurekaClient]: Factory method 'eurekaClient' threw exception; nested exception is java.lang.RuntimeException: Failed to initialize DiscoveryClient!
-```
+This repository contains a fourth year project developed by Mr Reatile Leballo and I at National University of Lesotho. We explore microservices architecture by developing an ecommerce system that provides customers with locations of nearby physical stores with respect to the customer's location and provide recommended products based on what the recommendation AI recommends.
 
-The error persisted even after multiple solutions were tried.
+## Usage
 
-Spring cloud API gateway was tried next and it provided the following error that persisted through multiple solutions
+### Installing
 
-```
-Access to XMLHttpRequest at 'http://localhost:8080/api/auth/signin' from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
-```
+In order to use this makefile you will need to make sure that the following
+dependencies are installed on your system:
+  - Nodejs
+  - npm
+  - Intellij IDEA
+
+### Setup the project
 
 Create a .env file in all microservices containing:
-```
+
+```env
+---
 MONGO_URL = mongo atlas url to database
 PORT = port number of each microservice
 PASS_SEC = any secret key for encrypting password
 JWT_SEC = any secret key for generating JsonWebToken
+---
+```
+
+Run the project:
+Navigate to Smart-Location-Aware-E-Commerce-System-Using-Microservices-Architecture/admin/
+
+```
+---
+npm install
+npm start
+---
+```
+
+Navigate to Smart-Location-Aware-E-Commerce-System-Using-Microservices-Architecture/frontend/
+
+```
+---
+npm install
+npm start
+---
+```
+
+Navigate to Smart-Location-Aware-E-Commerce-System-Using-Microservices-Architecture/backend/
+
+Run the Discover-Server in intellij
+Then proceed to run API-Gateway-Server
+
+for remaining each microservice's root folder, do:
+
+```
+---
+npm install
+nodemon index.js
+---
 ```
