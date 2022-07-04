@@ -8,7 +8,7 @@ This repository contains a fourth year project developed by Mr Reatile Leballo a
 
 ### Installing
 
-In order to use this makefile you will need to make sure that the following
+In order to use this system you will need to make sure that the following
 dependencies are installed on your system:
   - Nodejs
   - npm
